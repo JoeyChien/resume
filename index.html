@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #FFB5D8;
+            --primary-mint: #B5E7E8;
+            --primary-blue: #A8D8EA;
+            --primary-yellow: #FFFAA0;
+            --primary-lavender: #D4A5E5;
+            --dark-gray: #2C3E50;
+            --light-gray: #F8F9FA;
+            --border-color: #E8E8E8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FAFBFC 0%, #F5F7FF 100%);
+            color: var(--dark-gray);
+            line-height: 1.8;
+        }
+
+        /* ===== Header ===== */
+        header {
+            background: linear-gradient(135deg, rgba(255, 181, 216, 0.1), rgba(168, 216, 234, 0.1));
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #FF69B4, #20B2AA, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #FF69B4;
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 20px;
+            border: 4px solid var(--primary-pink);
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .highlight-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--primary-mint);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .highlight-box h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+        }
+
+        .highlight-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .highlight-item::before {
+            content: "→";
+            color: #FF69B4;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== Section Styles ===== */
+        section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        section h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-mint));
+            border-radius: 2px;
+        }
+
+        /* ===== Experience ===== */
+        .job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid var(--primary-blue);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .job-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .job-date {
+            background: var(--primary-yellow);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .job-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, var(--primary-mint), var(--primary-blue));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .job-section {
+            margin-bottom: 1.2rem;
+        }
+
+        .job-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #FF69B4;
+            margin-bottom: 0.8rem;
+            text-decoration: underline;
+            text-decoration-color: var(--primary-pink);
+            text-underline-offset: 4px;
+        }
+
+        .job-section ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .job-section li {
+            margin-bottom: 0.6rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .job-section li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-mint);
+            font-weight: bold;
+        }
+
+        /* ===== Skills ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-top: 4px solid var(--primary-pink);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .skill-category:nth-child(2) {
+            border-top-color: var(--primary-mint);
+        }
+
+        .skill-category:nth-child(3) {
+            border-top-color: var(--primary-blue);
+        }
+
+        .skill-category:nth-child(4) {
+            border-top-color: var(--primary-lavender);
+        }
+
+        .skill-category h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--dark-gray);
+        }
+
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-item {
+            background: var(--light-gray);
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ===== Projects ===== */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .project-header {
+            height: 160px;
+            background: linear-gradient(135deg, var(--primary-pink), var(--primary-lavender));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .project-title {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark-gray);
+        }
+
+        .project-content ul {
+            list-style: none;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .project-content li {
+            padding-left: 1.2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .project-content li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-mint);
+            font-weight: bold;
+        }
+
+        /* ===== Education ===== */
+        .education-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-lavender);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .education-item h3 {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.3rem;
+        }
+
+        .education-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: linear-gradient(135deg, rgba(255, 181, 216, 0.05), rgba(168, 216, 234, 0.05));
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #FF69B4;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .contact-info {
+                justify-content: center;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .job-header {
+                flex-direction: column;
+            }
+
+            .job-date {
+                align-self: flex-start;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="header-content">
+                <h1>Joie</h1>
+                <p class="subtitle">5 年後端工程師經驗，擅長流程優化及需求統整</p>
+                <div class="contact-info">
+                    <a href="mailto:aileen60222@gmail.com">📧 aileen60222@gmail.com</a>
+                    <a href="#">📍 Taipei, Taiwan</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div class="highlight-box">
+            <h2>✨ 核心優勢</h2>
+            <div class="highlight-list">
+                <div class="highlight-item">擅長以整體流程視角進行跨部門流程規劃與文件系統化</div>
+                <div class="highlight-item">具備跨 4 個部門溝通協調專案開發經驗</div>
+                <div class="highlight-item">擅長需求釐清聚焦及透過流程規劃/優化提升效率</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience -->
+    <section id="experience">
+        <h2>工作經歷</h2>
+
+        <div class="job-card">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">陽光伏特家 - PM</div>
+                    <p style="color: #666; margin-top: 0.3rem;">專案管理 | 流程優化</p>
+                </div>
+                <div class="job-date">2026年3月 - 2026年5月</div>
+            </div>
+
+            <div class="job-tech">
+                <span class="tech-tag">任務管理</span>
+                <span class="tech-tag">需求評估及排序</span>
+                <span class="tech-tag">跨部門協調</span>
+            </div>
+
+            <div class="job-section">
+                <h3>任務管理與流程優化</h3>
+                <ul>
+                    <li><strong>營運流程系統化：</strong> 評估並主導「訂單修改自動化」功能，將過往需手動操作資料庫的常態性庶務整合至現有系統功能中，降低人為操作風險及 RD 需重新理解系統資料結構之成本，提升跨部門營運效率。</li>
+                    <li><strong>工具化與知識管理：</strong> 與 RD 討論計費方案匯入流程優化，協調將流程封裝為 Rake Task，並建構包含商業邏輯之 SOP 文件，落實團隊知識傳承，降低未來維護與溝通成本。</li>
+                    <li><strong>落實開發項目測試：</strong> 電費指定收件人功能開發，自主規劃測試案例與建立發信驗證流程文件，確保順利上線且避免誤發信件。</li>
+                </ul>
+                 <h3>跨部門協作與危機處理</h3>
+                <ul>
+                    <li><strong>任務排序：</strong> 透過與使用者溝通，評估需求急迫性及優先序。</li>
+                    <li><strong>敏捷應變與技術協作：</strong> 於原系統維護人出國且 RD 量能不足之關鍵期，及時獨立承擔需求分析、程式碼初步 Debug 與修正，成功確保月底多項急件如期交付並無誤。</li>
+                    <li><strong>AI 工具使用：</strong> 運用 AI 工具（Claude）輔助程式碼邏輯梳理與 Debug，在開發資源不足的情況下快速聚焦問題並理解系統，提升效率並確保任務完成。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">誠品線上 - 資深後端工程師</div>
+                    <p style="color: #666; margin-top: 0.3rem;">Rails & Go 開發 | 流程優化 | 跨部門協調</p>
+                </div>
+                <div class="job-date">2022年6月 - 2025年6月</div>
+            </div>
+
+            <div class="job-tech">
+                <span class="tech-tag">Rails</span>
+                <span class="tech-tag">Go</span>
+                <span class="tech-tag">PostgreSQL</span>
+                <span class="tech-tag">Git Flow</span>
+                <span class="tech-tag">敏捷開發</span>
+            </div>
+
+            <div class="job-section">
+                <h3>流程優化與跨部門溝通</h3>
+                <ul>
+                    <li>設計 PRD/STG 上版流程，透過跨部門表單整合 QA、PD 及前/後端資訊來源，使用 Slack 機器人提醒，以低成本及時改善上版時 CI 等待瓶頸並降低跨部門資訊不同步成本</li>
+                    <li>改善 Scrum 會議，設計以 RD 工作紀錄為基礎的會議模式，降低同步成本並提升資訊有效性</li>
+                    <li>針對維運面反覆出現的問題主動提出功能改善建議（如：最後修改人查詢功能），降低後續重複性需求並提升開發投入的效益</li>
+                </ul>
+            </div>
+
+            <div class="job-section">
+                <h3>專案規劃與文件系統化</h3>
+                <ul>
+                    <li>帶領新人共同參與全新專案開發與架構規劃，並透過 Code Review 維持團隊開發風格</li>
+                    <li>修復與統整後端 API 文件（Swagger），提升跨部門協作效率</li>
+                    <li>建立業務邏輯文件與系統名詞統一表，降低溝通成本並避免理解落差</li>
+                    <li>活動頁系統規劃流程討論，確保使用體驗順暢且設計符合技術面時程</li>
+                </ul>
+            </div>
+
+            <div class="job-section">
+                <h3>技術優化成果</h3>
+                <ul>
+                    <li><strong>優惠券優化</strong>：整合重構原本兩張資料表的優惠券結構，盤查 30+ 個程式碼檔案，統整文件並補寫測試</li>
+                    <li><strong>首頁改版</strong>：與 Go 部門合作開發，Google Sheet 匯入分類 Job 開發及文件撰寫</li>
+                    <li><strong>SEO 優化</strong>：重構商品 API，同商品回應時間從平均 4 秒降至 900 毫秒，解決 N+1 問題並優化 SQL 查詢</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">果實夥伴 - 後端工程師</div>
+                    <p style="color: #666; margin-top: 0.3rem;">Rails 開發 | 專案重構 | 流程設計</p>
+                </div>
+                <div class="job-date">2021年4月 - 2022年4月</div>
+            </div>
+
+            <div class="job-tech">
+                <span class="tech-tag">Rails</span>
+                <span class="tech-tag">Whenever </span>
+                <span class="tech-tag">Sidekiq</span>
+            </div>
+                <div class="job-section">
+                <h3>排程表線上化</h3>
+                <ul>
+                    <li>到職 3 個月內快速接手滯延專案並優化修復關鍵計算問題，使專案在 2 個月內如期上線</li>
+                    <li>建立 Excel 整理 20 種廣告格式統整表，協助完整定義系統參數與邏輯</li>
+                </ul>
+            </div>
+
+            <div class="job-section">
+                <h3>業績表線上化</h3>
+                <ul>
+                    <li>主導業績表專案重構，透過使用者訪談重新定義需求，系統上線後減少 80% 每日手動統計時間</li>
+                    <li>規劃 4 部門協同作業流程並統一業績計算邏輯，建立運算流程案例 SOP，供業務助理核對時可快速確認問題</li>
+                    <li>撰寫完整專案規格文件、流程圖與系統開發進度 Demo 簡報</li>
+                    <li>運用 Sidekiq 非同步機制提升業績計算準確度與即時性，使用 Whenever 設定排程任務與發信提醒機制</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">信義房屋 - 後端工程師</div>
+                    <p style="color: #666; margin-top: 0.3rem;">PHP 開發 | 系統維護 | API 整合</p>
+                </div>
+                <div class="job-date">2020年8月 - 2021年2月</div>
+            </div>
+
+            <div class="job-tech">
+                <span class="tech-tag">PHP</span>
+                <span class="tech-tag">MySQL</span>
+            </div>
+
+            <div class="job-section">
+                <h3>主要成果</h3>
+                <ul>
+                    <li>負責電子報系統 PHP 5 升級至 PHP 7，在期限內完成版本升級及系統維運測試</li>
+                    <li>新年活動刮刮樂 Campaign Site：與 PM 溝通遊戲流程、訂定 API 規格</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">飛幕科技 - 後端工程師</div>
+                    <p style="color: #666; margin-top: 0.3rem;">.NET C# 開發 | 機房維運</p>
+                </div>
+                <div class="job-date">2018年5月 - 2020年2月</div>
+            </div>
+
+            <div class="job-tech">
+                <span class="tech-tag">.NET C#</span>
+                <span class="tech-tag">MVC</span>
+                <span class="tech-tag">SQL Server</span>
+            </div>
+
+            <div class="job-section">
+                <h3>主要工作</h3>
+                <ul>
+                    <li>獨立開發內部 CRM 系統：需求對焦、資料庫規劃、Wireframe 設計與功能實作</li>
+                    <li>政府標案：驗收文件整理及撰寫、功能 Bug 修正、前端畫面重構</li>
+                    <li>機房維運：VM Server 監控、機房環境管理、資料庫備份、考試系統監控、SQL 資料匯出報表</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="job-card">
+            <div class="job-header">
+                <div>
+                    <div class="job-title">第一企劃 - 官網 AE</div>
+                    <p style="color: #666; margin-top: 0.3rem;">內容管理 | 三星官網維護</p>
+                </div>
+                <div class="job-date">2016年7月 - 2018年5月</div>
+            </div>
+
+            <div class="job-tech">
+                <span class="tech-tag">內容管理</span>
+                <span class="tech-tag">HTML/CSS</span>
+            </div>
+
+            <div class="job-section">
+                <h3>主要成果</h3>
+                <ul>
+                    <li>同時管理 4 條產品線，與 PM 協作優化產品頁文字及素材</li>
+                    <li>商品頁之文案發想及翻譯</li>
+                    <li>應對近 10 個窗口，使用系統上稿官網新聞/活動內容，針對 HTML 進行微調優化版面</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <h2>專業技能</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>後端開發</h3>
+                <div class="skill-items">
+                    <div class="skill-item">Ruby on Rails</div>
+                    <div class="skill-item">Go</div>
+                    <div class="skill-item">.NET C#</div>
+                    <div class="skill-item">PHP</div>
+                    <div class="skill-item">Git Flow</div>
+                    <div class="skill-item">敏捷開發</div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>資料庫</h3>
+                <div class="skill-items">
+                    <div class="skill-item">PostgreSQL</div>
+                    <div class="skill-item">MySQL</div>
+                    <div class="skill-item">MS SQL</div>
+                    <div class="skill-item">資料庫優化</div>
+                    <div class="skill-item">SQL 查詢優化</div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>前端開發</h3>
+                <div class="skill-items">
+                    <div class="skill-item">JavaScript</div>
+                    <div class="skill-item">jQuery</div>
+                    <div class="skill-item">HTML/CSS</div>
+                    <div class="skill-item">Bootstrap</div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>核心能力</h3>
+                <div class="skill-items">
+                    <div class="skill-item">流程優化規劃</div>
+                    <div class="skill-item">跨部門協調</div>
+                    <div class="skill-item">需求釐清</div>
+                    <div class="skill-item">技術文件撰寫</div>
+                    <div class="skill-item">API 設計</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <h2>作品集</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title">5D Pocket</div>
+                </div>
+                <div class="project-content">
+                    <h3>Astro Camp 課程專題</h3>
+                    <ul>
+                        <li><strong>登入機制</strong>：Devise + Google & FB 第三方登入</li>
+                        <li><strong>標籤系統</strong>：Select2 快速分類文章</li>
+                        <li><strong>探索推薦</strong>：多對多關聯最佳化</li>
+                        <li><strong>文章標記</strong>：JavaScript 動態螢光標記</li>
+                        <li><strong>成就圖表</strong>：Chart.js 數據視覺化</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-title">任務管理系統</div>
+                </div>
+                <div class="project-content">
+                    <h3>Rails 開發流程學習</h3>
+                    <ul>
+                        <li>Git Feature Branch 開發流程</li>
+                        <li>Code Review & Pull Request</li>
+                        <li>RSpec 單元測試</li>
+                        <li>Travis CI 持續整合</li>
+                        <li>完整敏捷開發實踐</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education">
+        <h2>學習經歷</h2>
+
+        <div class="education-item">
+            <h3>元智大學 - 資訊管理學系</h3>
+            <p>2012 - 2016</p>
+        </div>
+
+        <div class="education-item">
+            <h3>Astro Camp - 全端開發課程</h3>
+            <p>2020 年 3 月 - 6 月 | Rails 專題製作</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:aileen60222@gmail.com">📧 Email</a>
+            </div>
+            <p>&copy; 2025 Joie's Portfolio. Made with 💚</p>
+        </div>
+    </footer>
+</body>
+</html>
